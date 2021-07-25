@@ -20,11 +20,16 @@ async def on_member_join(member):
         f'Hi {member.name}, welcome to my Discord server!'
     )
 
+def random_line(file_name):
+    lines = open(file_name).read().splitlines()
+    return random.choice(lines)
+
+
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
-"""
+    """
     UltraPureWords = [
         'I\'m the human form of the 💯 emoji.',
         'Bsdk',
@@ -34,14 +39,8 @@ async def on_message(message):
         
     ]
     """
-
-def random_line(file_name):
-    lines = open(file_name).read().splitlines()
-    return random.choice(lines)
-UltraPureWords = random_line('wishes.txt')
-
     if message.content:
-        response = UltraPureWords
+        response = random_line('wishes.txt')
         await message.channel.send(response)
 
 client.run(TOKEN)
