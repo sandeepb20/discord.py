@@ -4,6 +4,9 @@ import random
 import discord
 from dotenv import load_dotenv
 
+from discord.ext import commands
+client = commands.Bot(command_prefix='!')
+
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
@@ -39,8 +42,17 @@ async def on_message(message):
         
     ]
     """
-    if message.content:
-        response = random_line('wishes.txt')
-        await message.channel.send(response)
+    if client.user.id != message.author.id:
+        if message.content.startswith('!'):
+            author = message.author
+            response = random_line('wishes.txt')
+            await message.channel.send(response)
+            await test(author, message)
+        
+        if 'Hello' in message.content:
+            await client.send_message(message.channel, 'Hey')
+async def test(author, message):
+
+    await message.channel.send(F'Hi {author}, I heard you.')
 
 client.run(TOKEN)
